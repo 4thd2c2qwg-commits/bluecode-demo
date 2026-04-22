@@ -1,0 +1,135 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  width: 100%;
+  height: 100%;
+  background: #E8EAED;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #000;
+  color: #fff;
+  width: 1060px;
+  height: 918px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 24px;
+  box-shadow: 0 0 0 6px #1a1a2e, 0 0 0 8px #444, 0 20px 60px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+.phone-statusbar {
+  background: transparent;
+  height: 50px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 24px 24px 0 0;
+}
+
+.phone-statusbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.workspace {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-slot {
+  position: absolute;
+  overflow: visible;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.slot-clip {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  position: relative;
+}
+
+.app-slot.is-main {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  cursor: default;
+}
+
+.app-slot.is-thumb:hover {
+  transform: scale(1.03);
+}
+
+.app-slot.is-thumb:active {
+  transform: scale(0.97);
+}
+
+.slot-iframe {
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
+}
+
+.slot-img {
+  display: block;
+}
+
+.slot-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.app-slot.is-main .slot-overlay {
+  display: none;
+}
+
+.slot-icon {
+  position: absolute;
+  bottom: -6px;
+  left: -6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+.app-slot.is-main .slot-icon {
+  display: none;
+}
+
+.home-indicator {
+  width: 134px;
+  height: 5px;
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.2;
+  z-index: 20;
+}

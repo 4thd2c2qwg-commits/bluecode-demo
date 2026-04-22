@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AI总结</title>
+<link rel="stylesheet" href="summary-style.css">
+</head>
+<body>
+
+<div class="phone-statusbar">
+  <span id="statusTime">10:35</span>
+  <div class="phone-statusbar-right">
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z" fill="currentColor" opacity="0.9"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.8 2 3.8 2.9 2.3 4.3L1 3C2.8 1.1 5.3 0 8 0s5.2 1.1 7 3l-1.3 1.3C12.2 2.9 10.2 2 8 2zm3.5 3.5L10.2 6.8C9.6 6.3 8.8 6 8 6s-1.6.3-2.2.8L4.5 5.5C5.4 4.6 6.6 4 8 4s2.6.6 3.5 1.5zM8 8c-.8 0-1.5.7-1.5 1.5S7.2 11 8 11s1.5-.7 1.5-1.5S8.8 8 8 8z" fill="currentColor"/></svg>
+    <svg width="22" height="12" viewBox="0 0 22 12"><rect x="0" y="1" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="18.5" y="3.5" width="2" height="5" rx="1" fill="currentColor" opacity="0.4"/><rect x="1.5" y="2.5" width="12" height="7" rx="1" fill="#34D399"/></svg>
+  </div>
+</div>
+
+<div class="header">
+  <div class="header-side">
+    <button class="header-btn" title="搜索">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </button>
+  </div>
+  <span class="header-title">AI总结</span>
+  <div class="header-side">
+    <button class="header-btn" title="更多">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="source-bar">
+  <div class="source-info">
+    <div class="source-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="source-text">
+      <span class="source-name">Q2产品需求评审会</span>
+      <span class="source-detail" id="sourceDetail">腾讯会议 · 等待转写数据...</span>
+    </div>
+  </div>
+  <div class="source-right">
+    <span class="source-badge" id="sourceBadge">
+      <span class="live-dot"></span>实时同步中
+    </span>
+  </div>
+</div>
+
+<div class="progress-bar-wrap" id="progressWrap">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<div class="content-area" id="contentArea">
+
+  <div class="loading-state" id="loadingState">
+    <div class="loading-brain">
+      <div class="brain-ring"></div>
+      <div class="brain-icon">
+        <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2a5 5 0 015 5c0 1.5-.5 2.8-1.5 3.8L12 14l-3.5-3.2A5 5 0 017 7a5 5 0 015-5z"/><path d="M9 22v-4a2 2 0 012-2h2a2 2 0 012 2v4"/><path d="M5 12v2a7 7 0 0014 0v-2"/></svg>
+      </div>
+    </div>
+    <div class="loading-text" id="loadingText">等待 AI转写 数据</div>
+    <div class="loading-sub" id="loadingSub">请先打开 AI转写 页面开始转写，总结将实时同步生成</div>
+  </div>
+
+  <div class="summary-content" id="summaryContent" style="display:none;">
+
+    <div class="summary-card" id="card-overview" data-trigger="2">
+      <div class="card-header">
+        <div class="card-icon" style="background:#EEF2FF;color:var(--primary);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+        </div>
+        <span class="card-title">内容概要</span>
+        <span class="card-live-tag">实时更新</span>
+      </div>
+      <div class="card-body">
+        <p class="summary-text" id="overviewText"></p>
+      </div>
+    </div>
+
+    <div class="summary-card" id="card-keypoints" data-trigger="5">
+      <div class="card-header">
+        <div class="card-icon" style="background:#FEF3C7;color:var(--speaker-c);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="card-title">关键要点</span>
+        <span class="card-count" id="keypointCount"></span>
+      </div>
+      <div class="card-body" id="keypointBody"></div>
+    </div>
+
+    <div class="summary-card" id="card-decisions" data-trigger="9">
+      <div class="card-header">
+        <div class="card-icon" style="background:#DCFCE7;color:#16A34A;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <span class="card-title">决策结论</span>
+        <span class="card-count" id="decisionCount"></span>
+      </div>
+      <div class="card-body" id="decisionBody"></div>
+    </div>
+
+    <div class="summary-card" id="card-todos" data-trigger="13">
+      <div class="card-header">
+        <div class="card-icon" style="background:#EDE9FE;color:var(--speaker-d);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <span class="card-title">待办事项</span>
+        <span class="card-count" id="todoCount"></span>
+      </div>
+      <div class="card-body" id="todoBody"></div>
+    </div>
+
+    <div class="summary-card" id="card-risks" data-trigger="11">
+      <div class="card-header">
+        <div class="card-icon" style="background:#FEF2F2;color:#DC2626;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        </div>
+        <span class="card-title">风险与待确认</span>
+        <span class="card-count" id="riskCount"></span>
+      </div>
+      <div class="card-body" id="riskBody"></div>
+    </div>
+
+    <div class="summary-card" id="card-timeline" data-trigger="3">
+      <div class="card-header">
+        <div class="card-icon" style="background:#F0F9FF;color:#0284C7;">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span class="card-title">内容时间线</span>
+        <span class="card-live-tag">实时更新</span>
+      </div>
+      <div class="card-body">
+        <div class="timeline" id="timelineBody"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-actions-full">
+    <button class="action-btn-bottom" id="copyBtn">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      复制
+    </button>
+    <button class="action-btn-bottom" id="shareBtn">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
+      分享
+    </button>
+    <button class="action-btn-bottom primary" id="saveBtn">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      保存到笔记
+    </button>
+  </div>
+  <div class="home-indicator"></div>
+</div>
+
+<script src="summary-app.js"></script>
+</body>
+</html>
