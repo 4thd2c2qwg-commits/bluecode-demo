@@ -21,6 +21,21 @@
 
 <div class="home-indicator"></div>
 
+<script>
+(function() {
+  var W = 1060, H = 918, PAD = 32;
+  function fit() {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var sx = (vw - PAD) / W;
+    var sy = (vh - PAD) / H;
+    var s = Math.min(sx, sy, 1);
+    document.body.style.transform = 'scale(' + s + ')';
+  }
+  fit();
+  window.addEventListener('resize', fit);
+})();
+</script>
 <script src="workspace-app.js"></script>
 </body>
 </html>

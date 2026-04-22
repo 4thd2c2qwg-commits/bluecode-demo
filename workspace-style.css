@@ -7,6 +7,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 body {
@@ -22,6 +23,7 @@ body {
   border-radius: 24px;
   box-shadow: 0 0 0 6px #1a1a2e, 0 0 0 8px #444, 0 20px 60px rgba(0,0,0,0.3);
   flex-shrink: 0;
+  transform-origin: center center;
 }
 
 .phone-statusbar {
