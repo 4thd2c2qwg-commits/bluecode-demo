@@ -48,16 +48,6 @@
   var placeholderSlots = [];
   var inited = false;
 
-  function getSideApps() {
-    var side = currentApps.filter(function(a) { return a.id !== mainAppId; });
-    var xi = side.findIndex(function(a) { return a.id === 'xiaov'; });
-    if (xi > 0) {
-      var xApp = side.splice(xi, 1)[0];
-      side.unshift(xApp);
-    }
-    return side;
-  }
-
   function updateTime() {
     var now = new Date();
     var h = now.getHours().toString().padStart(2, '0');
@@ -157,7 +147,7 @@
       enterEls.push(mainSlot.wrapper);
     }
 
-    var sideApps = getSideApps();
+    var sideApps = currentApps.filter(function(a) { return a.id !== mainAppId; });
     var delayIdx = 1;
     sideApps.forEach(function(app) {
       var sd = appSlots[app.id];
@@ -270,7 +260,7 @@
   }
 
   function applyLayout() {
-    var sideApps = getSideApps();
+    var sideApps = currentApps.filter(function(a) { return a.id !== mainAppId; });
     var m = getLayoutMetrics();
 
     currentApps.forEach(function(app) {
@@ -369,7 +359,7 @@
     currentApps[newIdx] = tmp;
     mainAppId = targetId;
 
-    var sideApps = getSideApps();
+    var sideApps = currentApps.filter(function(a) { return a.id !== mainAppId; });
     var sideIdx = sideApps.findIndex(function(a) { return a.id === oldId; });
     var targetY = m.originY + sideIdx * (m.sideItemH + SIDEBAR_GAP);
 
@@ -475,7 +465,7 @@
 
   function deployAgents(agentIds) {
     var m = getLayoutMetrics();
-    var sideApps = getSideApps();
+    var sideApps = currentApps.filter(function(a) { return a.id !== mainAppId; });
     var existingSideCount = sideApps.length;
 
     var mainCenterX = m.mainX + m.mainW / 2;
