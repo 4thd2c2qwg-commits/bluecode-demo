@@ -11,18 +11,9 @@
   var SRC_H = 2480;
   var ICON_SRC = 'xiaov-icon.png';
 
-  var PADDING = 24;
-  var ICON_OFFSET = 6;
-  var SIDEBAR_LEFT = PADDING + ICON_OFFSET;
   var SIDEBAR_W = 180;
-  var SIDEBAR_H = 203;
-  var SIDEBAR_GAP = 8;
-  var SIDEBAR_MAIN_GAP = 16;
-
-  var MAIN_LEFT = SIDEBAR_LEFT + SIDEBAR_W + SIDEBAR_MAIN_GAP;
-  var MAIN_TOP = PADDING;
-  var MAIN_RIGHT = PADDING;
-  var MAIN_BOTTOM = PADDING;
+  var SIDEBAR_GAP = 20;
+  var SIDEBAR_MAIN_GAP = 20;
 
   var mainAppId = 'meeting';
   var workspace = document.getElementById('workspace');
@@ -85,22 +76,34 @@
     var wsW = workspace.clientWidth;
     var wsH = workspace.clientHeight;
 
-    var totalSideH = sideApps.length * SIDEBAR_H + (sideApps.length - 1) * SIDEBAR_GAP;
-    var sideStartY = Math.round((wsH - totalSideH) / 2);
-
-    var availW = wsW - MAIN_LEFT - MAIN_RIGHT;
-    var availH = wsH - MAIN_TOP - MAIN_BOTTOM;
     var ratio = SRC_W / SRC_H;
+    var sideCount = sideApps.length;
+    var totalGaps = (sideCount - 1) * SIDEBAR_GAP;
+
+    var MARGIN = 24;
+    var areaW = wsW - MARGIN * 2;
+    var areaH = wsH - MARGIN * 2;
+    var maxMainW = areaW - SIDEBAR_W - SIDEBAR_MAIN_GAP;
+    var maxMainH = areaH;
     var mainW, mainH;
-    if (availW / availH > ratio) {
-      mainH = availH;
+    if (maxMainW / maxMainH > ratio) {
+      mainH = maxMainH;
       mainW = Math.round(mainH * ratio);
     } else {
-      mainW = availW;
+      mainW = maxMainW;
       mainH = Math.round(mainW / ratio);
     }
-    var mainX = MAIN_LEFT + Math.round((availW - mainW) / 2);
-    var mainY = MAIN_TOP + Math.round((availH - mainH) / 2);
+
+    var sidebarH = mainH;
+    var sideItemH = Math.round((sidebarH - totalGaps) / sideCount);
+
+    var totalW = SIDEBAR_W + SIDEBAR_MAIN_GAP + mainW;
+    var totalH = mainH;
+    var originX = Math.round((wsW - totalW) / 2);
+    var originY = Math.round((wsH - totalH) / 2);
+
+    var mainX = originX + SIDEBAR_W + SIDEBAR_MAIN_GAP;
+    var mainY = originY;
 
     var sideIdx = 0;
     APPS.forEach(function(app) {
@@ -136,11 +139,11 @@
           slot.content.style.top = '0px';
         }
       } else {
-        var y = sideStartY + sideIdx * (SIDEBAR_H + SIDEBAR_GAP);
-        w.style.left = SIDEBAR_LEFT + 'px';
+        var y = originY + sideIdx * (sideItemH + SIDEBAR_GAP);
+        w.style.left = originX + 'px';
         w.style.top = y + 'px';
         w.style.width = SIDEBAR_W + 'px';
-        w.style.height = SIDEBAR_H + 'px';
+        w.style.height = sideItemH + 'px';
         w.style.borderRadius = '12px';
         w.style.zIndex = '10';
         w.classList.add('is-thumb');
@@ -157,18 +160,12 @@
           slot.content.style.left = '';
           slot.content.style.top = '';
         } else {
-          var scaleX = SIDEBAR_W / SRC_W;
-          var scaleY = SIDEBAR_H / SRC_H;
-          var s = Math.max(scaleX, scaleY);
-          var renderedW = SRC_W * s;
-          var renderedH = SRC_H * s;
-          var offX = (SIDEBAR_W - renderedW) / 2;
-          var offY = (SIDEBAR_H - renderedH) / 2;
+          var s = SIDEBAR_W / SRC_W;
           slot.content.style.width = SRC_W + 'px';
           slot.content.style.height = SRC_H + 'px';
           slot.content.style.transform = 'scale(' + s + ')';
-          slot.content.style.left = (offX / s) + 'px';
-          slot.content.style.top = (offY / s) + 'px';
+          slot.content.style.left = '0px';
+          slot.content.style.top = '0px';
         }
 
         sideIdx++;
