@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AI会议托管</title>
+<link rel="stylesheet" href="hosting-style.css">
+</head>
+<body>
+
+<div class="phone-statusbar">
+  <span id="statusTime">10:35</span>
+  <div class="phone-statusbar-right">
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z" fill="currentColor" opacity="0.9"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.8 2 3.8 2.9 2.3 4.3L1 3C2.8 1.1 5.3 0 8 0s5.2 1.1 7 3l-1.3 1.3C12.2 2.9 10.2 2 8 2zm3.5 3.5L10.2 6.8C9.6 6.3 8.8 6 8 6s-1.6.3-2.2.8L4.5 5.5C5.4 4.6 6.6 4 8 4s2.6.6 3.5 1.5zM8 8c-.8 0-1.5.7-1.5 1.5S7.2 11 8 11s1.5-.7 1.5-1.5S8.8 8 8 8z" fill="currentColor"/></svg>
+    <svg width="22" height="12" viewBox="0 0 22 12"><rect x="0" y="1" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="18.5" y="3.5" width="2" height="5" rx="1" fill="currentColor" opacity="0.4"/><rect x="1.5" y="2.5" width="12" height="7" rx="1" fill="#34D399"/></svg>
+  </div>
+</div>
+
+<div class="header">
+  <div class="header-side">
+    <button class="header-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+  </div>
+  <span class="header-title">AI会议托管</span>
+  <div class="header-side">
+    <button class="header-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="source-bar">
+  <div class="source-info">
+    <div class="source-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+        <path d="M16 3.13a4 4 0 010 7.75"/>
+      </svg>
+    </div>
+    <div class="source-text">
+      <span class="source-name">Q2产品需求评审会</span>
+      <span class="source-detail" id="sourceDetail">腾讯会议 · 准备就绪</span>
+    </div>
+  </div>
+  <div class="source-right">
+    <span class="source-badge" id="sourceBadge">
+      <span class="live-dot"></span>托管中
+    </span>
+  </div>
+</div>
+
+<!-- Phase 1: 启动引导 -->
+<div class="content-area" id="contentArea">
+  <div class="setup-view" id="setupView">
+    <div class="setup-hero">
+      <div class="hero-glow"></div>
+      <div class="hero-icon">
+        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <h2 class="hero-title">智能会议托管</h2>
+      <p class="hero-desc">AI 将自动从会议转写中抓取你关注的内容，实时总结并补充相关资料，让你不遗漏任何重要信息。</p>
+    </div>
+
+    <div class="setup-section">
+      <div class="section-label">
+        <span class="label-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </span>
+        选择你关注的内容
+      </div>
+
+      <div class="focus-grid" id="focusGrid">
+        <div class="focus-card selected" data-type="mention">
+          <div class="focus-card-check">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="focus-card-icon mention">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 00-3 19.5"/><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 006 0v-1a10 10 0 00-10-10"/></svg>
+          </div>
+          <span class="focus-card-title">提到我的</span>
+          <span class="focus-card-desc">别人提及你名字或相关内容时抓取</span>
+        </div>
+        <div class="focus-card" data-type="person">
+          <div class="focus-card-check">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="focus-card-icon person">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <span class="focus-card-title">关注的人</span>
+          <span class="focus-card-desc">指定人物的发言自动跟踪</span>
+        </div>
+        <div class="focus-card" data-type="topic">
+          <div class="focus-card-check">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="focus-card-icon topic">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="focus-card-title">话题关键词</span>
+          <span class="focus-card-desc">包含指定关键词的内容自动总结</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-section" id="mentionSection">
+      <div class="section-label">
+        <span class="label-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 00-3 19.5"/><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 006 0v-1a10 10 0 00-10-10"/></svg>
+        </span>
+        确认你的姓名
+      </div>
+      <div class="mention-name-wrap">
+        <input type="text" class="mention-name-input" id="mentionNameInput" value="李逍雨" placeholder="输入你的姓名">
+        <span class="mention-name-hint">会议中提到该姓名时自动抓取</span>
+      </div>
+    </div>
+
+    <div class="setup-section" id="personSection" style="display:none;">
+      <div class="section-label">
+        <span class="label-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </span>
+        选择关注的人
+      </div>
+      <div class="person-chips" id="personChips">
+        <div class="person-chip selected" data-person="张毅">
+          <span class="person-avatar" style="background:#2ECAA0;">张</span>
+          <span class="person-name">张毅</span>
+          <span class="person-check">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+        </div>
+        <div class="person-chip" data-person="未知说话人1">
+          <span class="person-avatar" style="background:#F5A623;">未</span>
+          <span class="person-name">未知说话人1</span>
+          <span class="person-check">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+        </div>
+        <div class="person-chip" data-person="未知说话人2">
+          <span class="person-avatar" style="background:#A78BFA;">未</span>
+          <span class="person-name">未知说话人2</span>
+          <span class="person-check">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-section" id="topicSection" style="display:none;">
+      <div class="section-label">
+        <span class="label-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </span>
+        设置关注的关键词
+      </div>
+      <div class="topic-tags" id="topicTags">
+        <div class="topic-tag selected" data-kw="交互">交互</div>
+        <div class="topic-tag" data-kw="排期">排期</div>
+        <div class="topic-tag" data-kw="技术方案">技术方案</div>
+        <div class="topic-tag" data-kw="设计">设计</div>
+        <div class="topic-tag" data-kw="需求">需求</div>
+        <div class="topic-tag" data-kw="风险">风险</div>
+      </div>
+      <div class="topic-input-wrap">
+        <input type="text" class="topic-input" id="topicInput" placeholder="输入自定义关键词，回车添加">
+      </div>
+    </div>
+
+    <div class="setup-action">
+      <button class="start-btn" id="startBtn">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        开始托管
+      </button>
+    </div>
+  </div>
+
+  <!-- Phase 2: 托管视图 -->
+  <div class="hosting-view" id="hostingView" style="display:none;">
+    <div class="tab-bar" id="tabBar"></div>
+    <div class="tab-panels" id="tabPanels"></div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <div class="bottom-actions-full" id="bottomActions">
+    <button class="action-btn-bottom" id="pauseBtn" style="display:none;">
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+      暂停托管
+    </button>
+    <button class="action-btn-bottom primary" id="exportBtn" style="display:none;">
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      导出报告
+    </button>
+  </div>
+  <div class="home-indicator"></div>
+</div>
+
+<div class="context-modal" id="contextModal">
+  <div class="context-backdrop" id="contextBackdrop"></div>
+  <div class="context-sheet" id="contextSheet">
+    <div class="context-handle"></div>
+    <div class="context-header">
+      <span class="context-title">前文上下文</span>
+      <button class="context-close" id="contextClose">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="context-body" id="contextBody"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var W = 2200, H = 2480, PAD = 32;
+  function fit() {
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var sx = (vw - PAD) / W;
+    var sy = (vh - PAD) / H;
+    var s = Math.min(sx, sy, 1);
+    document.body.style.transform = 'scale(' + s + ')';
+  }
+  if (window.parent === window) { fit(); window.addEventListener('resize', fit); }
+})();
+</script>
+<script src="hosting-app.js"></script>
+</body>
+</html>

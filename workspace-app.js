@@ -71,34 +71,38 @@
     }, 2000);
   }
 
+  var EDGE_PAD = 20;
+
   function getLayoutMetrics() {
     var wsW = workspace.clientWidth;
     var wsH = workspace.clientHeight;
     var ratio = SRC_W / SRC_H;
     var GAP = SIDEBAR_GAP;
-    var sideGaps = (SIDE_SLOT_COUNT - 1) * GAP;
+    var N = SIDE_SLOT_COUNT;
+    var sideGaps = (N - 1) * GAP;
 
-    var mainH = wsH - GAP * 2;
-    var mainW = Math.round(mainH * ratio);
-    var sideItemH = Math.round((mainH - sideGaps) / SIDE_SLOT_COUNT);
-    var sideW = Math.round(sideItemH * ratio);
+    var availW = wsW - EDGE_PAD * 2;
+    var availH = wsH - EDGE_PAD * 2;
 
-    var totalW = sideW + GAP + mainW;
-    if (totalW + GAP * 2 > wsW) {
-      totalW = wsW - GAP * 2;
-      mainW = totalW - sideW - GAP;
-      mainH = Math.round(mainW / ratio);
-      sideItemH = Math.round((mainH - sideGaps) / SIDE_SLOT_COUNT);
-      sideW = Math.round(sideItemH * ratio);
-      totalW = sideW + GAP + mainW;
-    }
+    var mainH = (availW - GAP + sideGaps * ratio / N) / (ratio + ratio / N);
+    if (mainH > availH) mainH = availH;
+    mainH = Math.floor(mainH);
 
-    var originX = Math.round((wsW - totalW) / 2);
+    var mainW = Math.floor(mainH * ratio);
+    var sideItemH = Math.floor((mainH - sideGaps) / N);
+    var sideW = Math.floor(sideItemH * ratio);
+
+    var leftover = availW - sideW - GAP - mainW;
+    if (leftover > 0) mainW += leftover;
+
+    var originX = EDGE_PAD;
     var originY = Math.round((wsH - mainH) / 2);
+    var mainOriginY = originY;
     var mainX = originX + sideW + GAP;
     return {
       originX: originX,
       originY: originY,
+      mainOriginY: mainOriginY,
       mainX: mainX,
       mainW: mainW,
       mainH: mainH,
@@ -273,7 +277,7 @@
     if (mainSlot) {
       var w = mainSlot.wrapper;
       w.style.left = m.mainX + 'px';
-      w.style.top = m.originY + 'px';
+      w.style.top = m.mainOriginY + 'px';
       w.style.width = m.mainW + 'px';
       w.style.height = m.mainH + 'px';
       w.style.borderRadius = '20px';
@@ -396,7 +400,7 @@
     void workspace.offsetHeight;
 
     newMainSlot.wrapper.style.left = m.mainX + 'px';
-    newMainSlot.wrapper.style.top = m.originY + 'px';
+    newMainSlot.wrapper.style.top = m.mainOriginY + 'px';
     newMainSlot.wrapper.style.width = m.mainW + 'px';
     newMainSlot.wrapper.style.height = m.mainH + 'px';
     newMainSlot.wrapper.style.borderRadius = '20px';
@@ -469,7 +473,7 @@
     var existingSideCount = sideApps.length;
 
     var mainCenterX = m.mainX + m.mainW / 2;
-    var mainCenterY = m.originY + m.mainH / 2;
+    var mainCenterY = m.mainOriginY + m.mainH / 2;
 
     agentIds.forEach(function(agentId, idx) {
       if (appSlots[agentId]) return;
