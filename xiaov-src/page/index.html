@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>蓝心小V</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      :root {
+        --font:
+          'vivo Sans SC VF', 'PingFang SC', 'Noto Sans SC', 'HarmonyOS Sans SC',
+          'Microsoft YaHei', sans-serif;
+      }
+
+      .page {
+        width: 100vw;
+        height: 100vh;
+        background-color: #f4f6fc;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        z-index: 999;
+      }
+
+      .status-bar {
+        width: 100%;
+        height: 30px;
+        position: relative;
+        flex-shrink: 0;
+      }
+      .status-bar-bg {
+        width: 100%;
+        height: 30px;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.3;
+      }
+      .status-bar-content {
+        position: relative;
+        width: 100%;
+        height: 30px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
+      .status-time {
+        font-family: var(--font);
+        font-size: 13.2px;
+        font-weight: 600;
+        line-height: 16px;
+        color: #000000;
+      }
+
+      .nav-bar {
+        width: 100%;
+        height: 56px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        flex-shrink: 0;
+      }
+      .nav-bar-left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+      }
+      .menu-icon-container {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-title {
+        font-family: var(--font);
+        font-size: 18px;
+        font-weight: 600;
+        color: #000000;
+      }
+      .nav-bar-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 22px;
+      }
+      .nav-icon {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .content-area {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .greeting-container {
+        width: 100%;
+        padding: 0 20px;
+      }
+      .greeting-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .greeting-title-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 2px;
+      }
+      .greeting-title {
+        font-family: var(--font);
+        font-size: 26px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.8);
+        line-height: normal;
+      }
+      .greeting-sub {
+        font-family: var(--font);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.47);
+      }
+
+      .cards-container {
+        width: 100%;
+        padding: 0 16px;
+        margin-top: 16px;
+      }
+      .cards-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .card {
+        width: 100%;
+        height: 48px;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.64);
+        box-shadow: 0px 4px 20px 0px rgba(43, 52, 100, 0.04);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        padding: 0 16px 0 0;
+      }
+      .card-icon-container {
+        width: 40px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 16px;
+        flex-shrink: 0;
+      }
+      .card-icon-placeholder {
+        width: 24px;
+        height: 24px;
+      }
+      .card-icon-placeholder img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+      .emoji-container {
+        width: 24px;
+        height: 24px;
+        position: relative;
+      }
+      .emoji-container img {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: contain;
+      }
+      .card-text-area {
+        flex: 1;
+        min-width: 0;
+      }
+      .card-text {
+        font-family: var(--font);
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.8);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+      }
+      .card-arrow-container {
+        width: 24px;
+        height: 24px;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .bottom-area {
+        width: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-top: 14px;
+      }
+      .chip-scroll-container {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 16px;
+        scrollbar-width: none;
+      }
+      .chip-scroll-container::-webkit-scrollbar {
+        display: none;
+      }
+      .chip-scroll-inner {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        white-space: nowrap;
+      }
+      .chip {
+        height: 32px;
+        border-radius: 10px;
+        border: 0.33px dashed rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.6);
+        box-shadow:
+          inset -1.5px 0.1px 0.5px -1px rgba(255, 255, 255, 0.3),
+          inset 1.2px 0px 3px 0px rgba(255, 255, 255, 0.35),
+          inset -1.2px 0px 3px 0px rgba(255, 255, 255, 0.35),
+          0px 2px 10px 0px rgba(43, 52, 100, 0.04);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 10px;
+        gap: 4px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .chip-icon {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+      }
+      .chip-label {
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(102, 102, 102, 0.99);
+        white-space: nowrap;
+      }
+
+      .input-box-container {
+        width: 100%;
+        padding: 16px 16px 0;
+      }
+      .input-box {
+        width: 100%;
+        height: 42px;
+        border-radius: 24px;
+        border: 0.33px dashed rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow:
+          inset -1.5px 0.1px 0.5px -1px rgba(255, 255, 255, 0.3),
+          inset 1.2px 0px 3px 0px rgba(255, 255, 255, 0.35),
+          inset -1.2px 0px 3px 0px rgba(255, 255, 255, 0.35),
+          0px 2px 10px 0px rgba(43, 52, 100, 0.04),
+          0px 4px 30px 0px rgba(0, 0, 0, 0.04);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        padding: 0 10px;
+      }
+      .input-area {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+      .vivo-ball-container {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        border-radius: 276.92px;
+        flex-shrink: 0;
+        box-shadow: inset -0.55px 0.55px 1.09px 0px rgba(255, 255, 255, 0.5);
+        overflow: hidden;
+      }
+      .vivo-ball-outer {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
+        filter: blur(0.44px);
+      }
+      .vivo-ball-inner {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        object-fit: contain;
+      }
+      .input-placeholder {
+        font-family: var(--font);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: rgba(85, 85, 85, 0.35);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .plus-button {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+
+      .bottom-nav {
+        width: 100%;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 14px;
+      }
+      .bottom-nav-indicator {
+        width: 144px;
+        height: 4px;
+        border-radius: 2.67px;
+        background-color: #333333;
+        opacity: 0.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="status-bar">
+        <div class="status-bar-content">
+          <span class="status-time">09:40</span>
+        </div>
+      </div>
+
+      <div class="nav-bar">
+        <div class="nav-bar-left">
+          <div class="menu-icon-container">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect
+                x="3"
+                y="5"
+                width="14"
+                height="1.5"
+                rx="0.75"
+                fill="rgba(0,0,0,0.8)"
+              />
+              <rect
+                x="3"
+                y="9.25"
+                width="14"
+                height="1.5"
+                rx="0.75"
+                fill="rgba(0,0,0,0.8)"
+              />
+              <rect
+                x="3"
+                y="13.5"
+                width="14"
+                height="1.5"
+                rx="0.75"
+                fill="rgba(0,0,0,0.8)"
+              />
+            </svg>
+          </div>
+          <span class="nav-title">蓝心小V</span>
+        </div>
+        <div class="nav-bar-right">
+          <div class="nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 01-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 01-6 3.22z"
+                fill="rgba(0,0,0,0.8)"
+              />
+            </svg>
+          </div>
+          <div class="nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                fill="rgba(0,0,0,0.8)"
+              />
+            </svg>
+          </div>
+          <div class="nav-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="5" r="2" fill="rgba(0,0,0,0.8)" />
+              <circle cx="12" cy="12" r="2" fill="rgba(0,0,0,0.8)" />
+              <circle cx="12" cy="19" r="2" fill="rgba(0,0,0,0.8)" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="greeting-container">
+          <div class="greeting-inner">
+            <div class="greeting-title-row">
+              <span class="greeting-title">你今天有行程安排哦</span>
+            </div>
+            <span class="greeting-sub">你正在乘坐飞机前往深圳...</span>
+          </div>
+        </div>
+
+        <div class="cards-container">
+          <div class="cards-inner">
+            <div class="card">
+              <div class="card-icon-container">
+                <div class="emoji-container">
+                  <img src="images/emoji-cake-body.png" alt="" />
+                  <img src="images/emoji-cake-cream.png" alt="" />
+                  <img src="images/emoji-cake-candle.png" alt="" />
+                </div>
+              </div>
+              <div class="card-text-area">
+                <span class="card-text">今天是小明的生日，要送上祝福吗？</span>
+              </div>
+              <div class="card-arrow-container">
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  style="transform: rotate(45deg)"
+                >
+                  <path
+                    d="M1 1h6v6M1 1l6 6"
+                    stroke="rgba(0,0,0,0.2)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-icon-container">
+                <div class="emoji-container">
+                  <img src="images/emoji-gift-ring.png" alt="" />
+                  <img src="images/emoji-gift-label.png" alt="" />
+                  <img src="images/emoji-gift-ribbon.png" alt="" />
+                </div>
+              </div>
+              <div class="card-text-area">
+                <span class="card-text">你收到一份礼物，快来看看吧</span>
+              </div>
+              <div class="card-arrow-container">
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  style="transform: rotate(45deg)"
+                >
+                  <path
+                    d="M1 1h6v6M1 1l6 6"
+                    stroke="rgba(0,0,0,0.2)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-icon-container">
+                <div class="card-icon-placeholder">
+                  <img src="images/chip-icon-remove-person.png" alt="" />
+                </div>
+              </div>
+              <div class="card-text-area">
+                <span class="card-text">航班已延误，要查看最新动态吗？</span>
+              </div>
+              <div class="card-arrow-container">
+                <svg
+                  width="8"
+                  height="8"
+                  viewBox="0 0 8 8"
+                  fill="none"
+                  style="transform: rotate(45deg)"
+                >
+                  <path
+                    d="M1 1h6v6M1 1l6 6"
+                    stroke="rgba(0,0,0,0.2)"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-area">
+        <div class="chip-scroll-container">
+          <div class="chip-scroll-inner">
+            <div class="chip">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2.5a2 2 0 110 4 2 2 0 010-4zM8 12.5c-1.87 0-3.5-.94-4.5-2.38C3.97 8.87 6.5 8 8 8s4.03.87 4.5 2.12A5.49 5.49 0 018 12.5z"
+                  fill="rgba(102,102,102,0.99)"
+                />
+              </svg>
+              <span class="chip-label">深度思考</span>
+            </div>
+            <div class="chip">
+              <img
+                src="images/chip-icon-remove-person.png"
+                alt=""
+                class="chip-icon"
+              />
+              <span class="chip-label">帮我写文案</span>
+            </div>
+            <div class="chip">
+              <img
+                src="images/chip-icon-remove-person.png"
+                alt=""
+                class="chip-icon"
+              />
+              <span class="chip-label">翻译助手</span>
+            </div>
+            <div class="chip">
+              <img
+                src="images/chip-icon-remove-person.png"
+                alt=""
+                class="chip-icon"
+              />
+              <span class="chip-label">日程管理</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-box-container">
+          <div class="input-box">
+            <div class="input-area">
+              <div class="vivo-ball-container">
+                <img
+                  src="images/vivo-ball-outer.png"
+                  alt=""
+                  class="vivo-ball-outer"
+                />
+                <img
+                  src="images/vivo-ball-inner.png"
+                  alt=""
+                  class="vivo-ball-inner"
+                />
+              </div>
+              <span class="input-placeholder">点击输入或按住说话</span>
+            </div>
+            <div class="plus-button">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path
+                  d="M7 1v12M1 7h12"
+                  stroke="rgba(0,0,0,0.8)"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="bottom-nav-indicator"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

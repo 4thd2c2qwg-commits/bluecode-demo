@@ -17,13 +17,27 @@
   </div>
 </div>
 
+<div class="fullscreen-meeting" id="fullscreenMeeting">
+  <div class="fullscreen-cover"></div>
+  <img src="meeting-screenshot.png" class="fullscreen-img" draggable="false">
+</div>
+
+<div class="atom-island" id="atomIsland">
+  <div class="atom-island-inner" id="atomIslandInner">
+    <img src="xiaov-icon.png" class="atom-icon">
+    <span class="atom-title">AI辅助会议</span>
+    <div class="atom-spacer"></div>
+    <span class="atom-btn">AI工作台</span>
+  </div>
+</div>
+
 <div class="workspace" id="workspace"></div>
 
 <div class="home-indicator"></div>
 
 <script>
 (function() {
-  var W = 1060, H = 918, PAD = 32;
+  var W = 1060, H = 1195, PAD = 32;
   function fit() {
     var vw = window.innerWidth;
     var vh = window.innerHeight;
